@@ -1,0 +1,59 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+;
+; 학습 프로젝트 06 — 플랫폼과 빌드/익스포트.
+; `키.태그=값` 형태의 항목은 기능 태그 오버라이드다 (core/config/project_settings.cpp _set(), README 참고).
+
+config_version=5
+
+[application]
+
+config/name="06 Platform Lab"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.4")
+
+[autoload]
+
+Log="*res://log.gd"
+
+[demo]
+
+greeting="데스크톱 기본값"
+greeting.mobile="모바일 값"
+greeting.web="웹 값"
+greeting.editor="에디터 값"
+quality="high"
+quality.mobile="medium"
+quality.web="medium"
+quality.lowend="low"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
+[input]
+
+move_left={"deadzone": 0.2, "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":65,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)]}
+move_right={"deadzone": 0.2, "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)]}
+jump={"deadzone": 0.2, "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)]}
+
+[rendering]
+
+; 렌더링 방식: 기본 GL Compatibility, 모바일 태그에서도 GL Compatibility (main/main.cpp:2634-2636 GLOBAL_DEF).
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+; RenderingDevice 드라이버는 플랫폼 태그별로 따로 고른다 (main/main.cpp:2363-2369). forward_plus/mobile 일 때만 쓰인다.
+rendering_device/driver.windows="vulkan"
+rendering_device/driver.linuxbsd="vulkan"
+rendering_device/driver.macos="metal"
+; GL Compatibility 드라이버 (main/main.cpp:2378-2384). windows/macos 는 opengl3_angle, linuxbsd 는 opengl3_es 로 바꿀 수 있다.
+gl_compatibility/driver.windows="opengl3"
+gl_compatibility/driver.linuxbsd="opengl3"
+gl_compatibility/driver.macos="opengl3"
+gl_compatibility/fallback_to_angle=true
