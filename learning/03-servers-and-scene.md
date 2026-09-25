@@ -148,7 +148,7 @@ Node
 - `Viewport` 생성자 (`viewport.cpp:5597`): `viewport = RS::viewport_create(); texture_rid = RS::viewport_get_texture(viewport);` — 모든 Viewport는 서버의 렌더 타깃이며 `ViewportTexture`로 결과를 읽을 수 있습니다.
 - `Window : Viewport`: `_make_window()`가 `DisplayServer::create_sub_window()`로 OS 창을 만들고(`window.cpp:778`), `RS::viewport_attach_to_screen(rid, rect, window_id)`(`:1482`)로 뷰포트를 그 창에 연결, `window_set_input_event_callback(_window_input)`(`:1501`)으로 입력을 받습니다. 루트는 `MAIN_WINDOW_ID`.
 - 임베디드 서브윈도우: 부모 Viewport가 `embedder`가 되어 OS 창 없이 그립니다 (에디터 안에서 게임 창이 뜨는 방식).
-- 입력 흐름: DisplayServer 콜백 → `Window::_window_input` → `Viewport::push_input()` → `_input` → GUI(`Control`) → `_unhandled_input` → `_shortcut_input`.
+- 입력 흐름: DisplayServer 콜백 → `Window::_window_input` → `Viewport::push_input()` → `_input` → GUI(`Control._gui_input`) → `_push_unhandled_input_internal()`: `_shortcut_input` → `_unhandled_key_input` → `_unhandled_input` 순서 (`viewport.cpp`의 `_push_unhandled_input_internal`). 어느 단계에서든 `set_input_as_handled()`를 부르면 그 뒤 단계는 생략됩니다.
 
 ## 3.5 노드 타입 등록 (`scene/register_scene_types.cpp`)
 

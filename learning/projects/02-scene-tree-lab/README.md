@@ -63,7 +63,8 @@
 - **`max_fps` 는 물리 틱 수를 바꾸지 않는다.** 프레임 끝 `OS::add_frame_delay()` 에서 잠들 뿐. `physics_ticks_per_second` 가 시뮬레이션 해상도, `time_scale` 은 두 delta 에 곱해진다.
 - **deferred 가 "같은 프레임" 에 실행되는 이유.** `Main::iteration()` 이 물리 틱마다, 그리고 `process()` 뒤에 `message_queue->flush()` 를 부른다. `process_frames` 는 iteration 끝에서 증가하므로 요청/실행의 `pf` 가 같으면 같은 iteration 이다. `await process_frame` 은 다음 `SceneTree::process()` 첫머리(노드 `_process` 전), `await physics_frame` 은 다음 물리 틱 첫머리, `create_timer(0)` 은 그 프레임 `process_timers()`(노드 `_process` 뒤) 에서 재개된다.
 - **그룹 호출은 트리 순서, `propagate_*` 는 서브트리.** `get_nodes_in_group` 은 `_update_group_order()` 로 트리 순서 정렬. `propagate_notification` 은 항상 부모 먼저, `propagate_call` 은 `parent_first` 로 선택.
-- **마우스 클릭은 Control 위에서는 항상 GUI 단계가 소비한다.** `_unhandled_input` 까지 가려면 그 지점의 모든 Control 이 `MOUSE_FILTER_IGNORE` 여야 한다 (허브의 레이아웃 컨테이너는 그래서 IGNORE 다). `STOP` 은 포인터 이벤트만 막고, 키 이벤트는 포커스 소유자에서 조상으로 계속 올라간다. `_shortcut_input` 에는 마우스가 절대 오지 않는다.
+- **마우스 클릭은 `STOP` 을 만나야 GUI 단계가 소비한다.** `_gui_call_input()` 은 클릭된 Control 부터 조상으로 올라가며 `IGNORE` 는 건너뛰고, `STOP` 을 만나면 `set_input_as_handled()` 후 멈춘다 (Button 은 `BaseButton::gui_input` 이 스스로 `accept_event()`). 체인이 전부 `PASS`/`IGNORE` 면 클릭이 `_unhandled_input` 까지 간다 — 허브의 레이아웃 컨테이너를 IGNORE 로 둔 이유(기본 STOP 인 `PanelContainer` 가 체인을 끊지 않게). 그 지점에 Control 이 하나도 없으면 `_gui_input_event()` 가 GUI 단계 자체를 건너뛴다.
+- **`STOP` 은 포인터 이벤트만 막는다.** 키 이벤트는 포커스 소유자에서 시작해 `IGNORE` 가 아닌 조상 Control 의 `_gui_input` 으로 계속 올라간다. `_shortcut_input` 에는 마우스가 절대 오지 않는다.
 
 ## 연습 과제
 
@@ -72,7 +73,7 @@
 3. **물리 틱 스파이럴**: 데모 2 에서 `Engine.max_physics_steps_per_frame` 을 1 로 낮추고 tps 를 120 으로 올린 뒤 `_physics_process` 횟수가 왜 120 에 못 미치는지 `main.cpp` 의 클램프 코드로 설명하세요.
 4. **deferred 순서 예측**: 데모 3 의 "다음 `_physics_process` 안" 버튼을 누르기 전에 여섯 줄의 `pf / phf / in_physics` 값을 종이에 예측하고 로그와 비교하세요. 틀린 항목은 `Main::iteration()` 의 어느 flush 지점 때문인지 찾으세요.
 5. **`GROUP_CALL_UNIQUE`**: 데모 4 에 `GROUP_CALL_DEFERRED | GROUP_CALL_UNIQUE` 버튼을 추가해 한 프레임에 여러 번 눌러도 `ping` 이 한 번만 오는지 확인하고, `scene_tree.cpp` 의 `unique_group_calls` / `_flush_ugc()` 를 읽으세요.
-6. **마우스를 `_unhandled_input` 까지**: 데모 5 에서 루트와 Panel 을 IGNORE 로 바꾸고 Panel 영역을 클릭해 `_unhandled_input` 이 찍히는지 확인한 뒤, `viewport.cpp gui_find_control_at_pos()` 가 IGNORE 컨트롤을 어떻게 건너뛰는지 찾으세요.
+6. **마우스를 `_unhandled_input` 까지**: 데모 5 에서 (a) 루트와 Panel 을 PASS 로 두고 Panel 을 클릭 → `Panel._gui_input`, `루트 _gui_input`, `_unhandled_input` 순서, (b) 둘 다 IGNORE → `_unhandled_input` 만, (c) Panel STOP → `Panel._gui_input` 에서 끝. 세 경우를 `viewport.cpp _gui_call_input()` 의 STOP 분기와 `gui_find_control_at_pos()` 의 IGNORE 건너뛰기로 설명하세요.
 7. **pack() 에 코드 노드 포함**: 데모 6 에서 인스턴스에 `Label` 을 코드로 추가하고 `owner = 인스턴스` 를 설정한 뒤 `pack()` 의 노드 수가 5 가 되는지 확인하세요. 설정하지 않으면 왜 빠지는지 `PackedScene::pack()` → `SceneState::_parse_node()` 에서 찾으세요.
 
 ## 흔한 함정

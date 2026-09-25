@@ -7,7 +7,9 @@ extends Control
 ##                          Control::_call_gui_input(): gui_input 시그널 → GDVIRTUAL _gui_input → C++ gui_input()(버튼 클릭 처리)
 ##   3) _push_unhandled_input_internal(): _shortcut_input(Key/Shortcut/JoypadButton 만) → _unhandled_key_input(Key 만) → _unhandled_input
 ##   단계 사이마다 is_input_handled() 를 확인하므로 set_input_as_handled() 는 그 뒤 단계를 모두 막는다.
-##   마우스 버튼이 어떤 Control 위에 있으면 GUI 단계가 항상 handled 로 만든다 → _unhandled_input 까지 가려면 그 지점의 모든 Control 이 IGNORE 여야 한다.
+##   마우스 클릭은 _gui_call_input() 체인에서 STOP 인 Control 을 만나거나 핸들러가 accept_event() 를 부를 때만 handled 가 된다
+##   (Button 은 BaseButton::gui_input 이 스스로 accept_event). 체인이 전부 PASS/IGNORE 면 _unhandled_input 까지 간다.
+##   그 지점에 Control 이 하나도 없으면(모두 IGNORE) _gui_input_event() 가 `if (!gui.mouse_focus) return` 으로 GUI 단계를 통째로 건너뛴다.
 
 const GuiProbeScript: GDScript = preload("res://demos/input_propagation/gui_probe.gd")
 const STAGES: Array[String] = ["_input", "_gui_input", "_shortcut_input", "_unhandled_key_input", "_unhandled_input"]
@@ -90,7 +92,7 @@ func _build_ui() -> void:
 
 	var info := Label.new()
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	info.text = "체크박스: 그 단계에서 get_viewport().set_input_as_handled() 를 부른다.\n마우스 클릭은 Control 위에서는 GUI 단계가 항상 소비한다. 빈 곳 클릭이 _unhandled_input 까지 가는 것을 보려면 루트와 Panel 을 IGNORE 로 바꾸고 Panel 영역을 클릭하세요.\n키 이벤트는 포커스 소유자에서 시작해 mouse_filter≠IGNORE 인 조상으로 올라간다 (STOP 은 포인터 이벤트만 막는다)."
+	info.text = "체크박스: 그 단계에서 get_viewport().set_input_as_handled() 를 부른다.\n마우스 클릭은 체인에서 STOP 인 Control 을 만날 때만 GUI 단계가 소비한다 (Button 은 스스로 accept_event). 루트와 Panel 을 PASS 로 두고 Panel 을 클릭하면 Panel → 루트 _gui_input 뒤에 _unhandled_input 까지 간다. 둘 다 IGNORE 면 GUI 단계 없이 곧장 _unhandled_input 으로 간다.\n키 이벤트는 포커스 소유자에서 시작해 mouse_filter≠IGNORE 인 조상으로 올라간다 (STOP 은 포인터 이벤트만 막는다)."
 	vbox.add_child(info)
 
 	var filters := HBoxContainer.new()
@@ -157,7 +159,7 @@ func _on_root_filter_selected(index: int) -> void:
 
 func _on_panel_filter_selected(index: int) -> void:
 	_panel.mouse_filter = index as Control.MouseFilter
-	Log.info("Panel.mouse_filter = MOUSE_FILTER_%s — STOP: 받고 멈춤 / PASS: 받고 부모로 / IGNORE: 안 받고 뒤(부모)가 받음" % FILTER_NAMES[index])
+	Log.info("Panel.mouse_filter = MOUSE_FILTER_%s — STOP: 받고 handled / PASS: 받고 부모 체인으로 계속 / IGNORE: 안 받음(뒤의 Control 이 받거나, 없으면 GUI 단계 생략)" % FILTER_NAMES[index])
 
 
 func _on_handle_toggled(enabled: bool, stage: String) -> void:

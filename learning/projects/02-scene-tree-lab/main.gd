@@ -50,7 +50,8 @@ func _ready() -> void:
 	# 데모 2 가 get_tree().paused 를 켜도 허브의 버튼과 로그는 계속 동작해야 한다.
 	# 엔진: scene/main/node.cpp Node::can_process() — PROCESS_MODE_ALWAYS 는 SceneTree.paused 를 무시한다.
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	# 레이아웃 전용 루트는 마우스를 무시해, 데모 5 에서 "아무 Control 도 없는 곳" 클릭이 _unhandled_input 까지 갈 수 있게 한다.
+	# 레이아웃 전용 컨테이너들은 마우스를 무시한다(IGNORE). 기본값이 STOP 인 PanelContainer 나 이 루트가 STOP 이면
+	# 데모 5 의 PASS 체인이 허브에서 끊겨 클릭이 _unhandled_input 까지 가는 것을 볼 수 없다 (viewport.cpp _gui_call_input).
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_build_ui()
 	Log.message.connect(_on_log_message)
