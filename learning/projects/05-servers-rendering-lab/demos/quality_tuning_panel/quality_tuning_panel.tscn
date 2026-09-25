@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://demos/quality_tuning_panel/quality_tuning_panel.gd" id="1_qtp"]
+
+[node name="QualityTuningPanel" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_qtp")
+
+[node name="Layout" type="HBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ViewportContainer" type="SubViewportContainer" parent="Layout"]
+size_flags_horizontal = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Layout/ViewportContainer"]
+own_world_3d = true
+handle_input_locally = false
+
+[node name="Camera3D" type="Camera3D" parent="Layout/ViewportContainer/SubViewport"]
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Layout/ViewportContainer/SubViewport"]
+shadow_enabled = true
+
+[node name="Panel" type="ScrollContainer" parent="Layout"]
+custom_minimum_size = Vector2(420, 0)
+
+[node name="VBox" type="VBoxContainer" parent="Layout/Panel"]
+size_flags_horizontal = 3

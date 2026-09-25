@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://demos/rs_no_nodes_3d/rs_no_nodes_3d.gd" id="1_rsn"]
+
+[node name="RsNoNodes3D" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_rsn")
+
+[node name="ViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="ViewportContainer"]
+own_world_3d = true
+handle_input_locally = false
+
+[node name="Camera3D" type="Camera3D" parent="ViewportContainer/SubViewport"]
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="ViewportContainer/SubViewport"]
+shadow_enabled = true
