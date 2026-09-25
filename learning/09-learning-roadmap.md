@@ -20,6 +20,8 @@ Stage 7  엔진 기여 / 모듈 작성  CONTRIBUTING.md, 4장
 
 **목표**: 에디터 UI, 노드/씬/시그널, GDScript 기초, 리소스와 임포트.
 
+📂 **실습 프로젝트**: [`learning/projects/01-first-game`](projects/01-first-game/README.md) — 완성된 2D 닷지 게임 + 시그널·씬 인스턴스·.tscn 해부 데모
+
 **공식 자료 (docs.godotengine.org)**
 1. Getting Started → "Step by step" (노드와 씬, 시그널, 스크립팅 언어)
 2. "Your first 2D game" (Dodge the Creeps) → "Your first 3D game" (Squash the Creeps)
@@ -39,6 +41,8 @@ Stage 7  엔진 기여 / 모듈 작성  CONTRIBUTING.md, 4장
 
 **목표**: 내가 쓴 `_process()`가 호출되기까지의 경로를 소스에서 추적한다.
 
+📂 **실습 프로젝트**: [`learning/projects/02-scene-tree-lab`](projects/02-scene-tree-lab/README.md) — 라이프사이클 순서, process/physics 카운터, deferred 큐, 그룹·알림, 입력 전파, SceneState 검사
+
 **읽는 순서** (3장과 병행)
 1. `main/main.cpp` `Main::iteration()` — 프레임 한 번의 골격 (1장 1.4)
 2. `scene/main/scene_tree.cpp` `SceneTree::process()` → `_process(ProcessGroup)` → `Node::_call_process()`
@@ -55,6 +59,8 @@ Stage 7  엔진 기여 / 모듈 작성  CONTRIBUTING.md, 4장
 ## Stage 3. 스크립트 언어 내부 (1~2주)
 
 **목표**: GDScript 한 줄이 토큰 → AST → 바이트코드 → VM 실행으로 바뀌는 과정 이해.
+
+📂 **실습 프로젝트**: [`learning/projects/03-gdscript-lab`](projects/03-gdscript-lab/README.md) — 타이핑 벤치마크, Variant/Callable, 코루틴, 클래스 시스템, Expression·리플렉션, 에러 처리
 
 **읽는 순서** (4장 4.2)
 1. `modules/gdscript/gdscript_tokenizer.cpp` — 토큰과 들여쓰기 처리
@@ -73,6 +79,8 @@ Stage 7  엔진 기여 / 모듈 작성  CONTRIBUTING.md, 4장
 
 **목표**: `Object`/`Variant`/`ClassDB`가 스크립트·에디터·직렬화의 공통 기반임을 이해.
 
+📂 **실습 프로젝트**: [`learning/projects/04-core-lab`](projects/04-core-lab/README.md) — ClassDB 브라우저, Object/ObjectDB, RefCounted, Variant COW, 커스텀 리소스 로더, 파일/OS, 스레드
+
 **읽는 순서** (2장)
 1. `core/object/object.h` — `GDCLASS` 매크로 펼쳐 읽기, `_bind_methods`, 시그널, 알림
 2. `core/object/class_db.h` — `ClassDB::bind_method` 가 `MethodBind`를 만들어 이름→함수 테이블에 넣는 과정
@@ -88,6 +96,8 @@ Stage 7  엔진 기여 / 모듈 작성  CONTRIBUTING.md, 4장
 ## Stage 5. 서버와 렌더링 파이프라인 (2~4주)
 
 **목표**: 노드가 RID로 서버에 명령을 보내고, 렌더러가 프레임을 그리는 전 과정을 설명할 수 있다.
+
+📂 **실습 프로젝트**: [`learning/projects/05-servers-rendering-lab`](projects/05-servers-rendering-lab/README.md) — 노드 없는 RenderingServer 렌더링, PhysicsServer2D 직접 사용, RD 컴퓨트, 품질 튜닝 패널, 셰이더 파이프라인
 
 **읽는 순서** (3장 3.1, 6장, 7장)
 1. `servers/rendering/rendering_server.h` — 공개 API 전체 훑기 (texture_*, mesh_*, instance_*, viewport_*, canvas_*)
@@ -111,6 +121,8 @@ Stage 7  엔진 기여 / 모듈 작성  CONTRIBUTING.md, 4장
 
 **목표**: 새 플랫폼이 어떤 인터페이스를 구현해야 하는지, 익스포트가 무엇을 하는지 이해.
 
+📂 **실습 프로젝트**: [`learning/projects/06-platform-lab`](projects/06-platform-lab/README.md) — 플랫폼 정보와 기능 태그, PCK 패킹/로딩, 입력 장치, 창/디스플레이, 익스포트 프리셋, 헤드리스 스크립트
+
 **읽는 순서** (5장)
 1. `platform/linuxbsd/godot_linuxbsd.cpp` → `os_linuxbsd.cpp` — 가장 단순한 진입점
 2. `servers/display/display_server.h` — 창/입력/클립보드 계약, `platform/linuxbsd/x11/display_server_x11.cpp`로 구현 예 보기
@@ -123,6 +135,8 @@ Stage 7  엔진 기여 / 모듈 작성  CONTRIBUTING.md, 4장
 ---
 
 ## Stage 7. 기여자 / 모듈 개발자 (지속)
+
+📂 **실습 프로젝트**: [`learning/projects/07-extending-engine`](projects/07-extending-engine/README.md) — 에디터 플러그인, 커스텀 C++ 모듈 골격, godot-cpp 확장 소스, @tool 스크립트, 기여 체크리스트
 
 - `CONTRIBUTING.md` → 버그 리포트·PR 규칙, `misc/scripts/`의 포매터.
 - 작은 첫 기여: `doc/classes/*.xml` 문서 보강, `tests/` 추가, "good first issue" 라벨.

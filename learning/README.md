@@ -23,6 +23,7 @@ Godot을 **사용자(게임 개발자)** 로서 배우는 것과 **엔진 개발
 | 8 | [08-comparison-other-engines.md](08-comparison-other-engines.md) | Unity · Unreal · Bevy · Defold 등과의 설계 차이 |
 | 9 | [09-learning-roadmap.md](09-learning-roadmap.md) | 튜토리얼부터 엔진 내부까지: 단계별 학습 로드맵과 연습 과제 |
 | 부록 | [appendix-glossary.md](appendix-glossary.md) | 용어집 & 자주 찾는 파일 색인 |
+| 실습 | [projects/README.md](projects/README.md) | Stage 1~7 각각에 대응하는 실행 가능한 Godot 프로젝트 7개 (데모 허브 + 셀프테스트) |
 
 ## 읽는 순서 제안
 
@@ -30,6 +31,10 @@ Godot을 **사용자(게임 개발자)** 로서 배우는 것과 **엔진 개발
 - **다른 엔진 경험자**: 8장(비교) → 1장 → 3장 → 6장
 - **렌더링/그래픽스 관심**: 1장 → 6장 → 7장 → `servers/rendering/` 직접 읽기
 - **엔진 기여/모듈 개발**: 2장 → 4장 → 5장(빌드) → `CONTRIBUTING.md`
+
+## 실습 프로젝트
+
+`learning/projects/` 에 단계별 Godot 프로젝트가 있습니다. 각 장을 읽은 뒤 해당 프로젝트를 에디터로 열어 데모를 눌러 보고, 스크립트 주석에 적힌 엔진 소스 경로를 따라가는 방식을 권합니다. 헤드리스로도 검증할 수 있습니다: `learning/projects/tools/verify.sh learning/projects/<dir>`.
 
 ## 표기 규칙
 
