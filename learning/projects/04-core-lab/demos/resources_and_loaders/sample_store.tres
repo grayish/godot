@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="KeyValueStore" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://demos/resources_and_loaders/key_value_store.gd" id="1_kvs"]
+
+[resource]
+script = ExtResource("1_kvs")
+data = {
+"greeting": "안녕, 스레드 로더",
+"level": 3,
+"spawn": Vector2(64, 128)
+}
