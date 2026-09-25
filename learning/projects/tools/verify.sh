@@ -12,6 +12,7 @@ GODOT="${2:-${GODOT:-$HERE/../../../bin/godot.linuxbsd.editor.x86_64}}"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RUNNER="$HERE/demo_runner.gd"
 FAIL=0
+LOGDIR="$(mktemp -d /tmp/verify_XXXXXX)"
 ERRPAT='SCRIPT ERROR|^ERROR:|Parse error|Failed to load|SCRIPT LOAD FAIL|DEMO FAIL|Invalid call|Nonexistent|Cannot instantiate|Node not found'
 
 run() { # name, cmd...
@@ -26,7 +27,7 @@ run() { # name, cmd...
 	else
 		echo "ok   [$name]"
 	fi
-	echo "$out" > "/tmp/verify_${name//[^A-Za-z0-9_]/_}.log"
+	echo "$out" > "$LOGDIR/${name//[^A-Za-z0-9_]/_}.log"
 }
 
 echo "== verify $PROJ"
@@ -43,7 +44,8 @@ fi
 
 run "hub" "$GODOT" --headless --path "$PROJ" --quit-after 5
 run "demos" "$GODOT" --headless --path "$PROJ" -s "$RUNNER"
-grep -h "SCRIPT OK\|DEMO OK\|DEMO_RUNNER DONE" /tmp/verify_demos.log 2>/dev/null | sed 's/^/     /'
+grep -h "SCRIPT OK\|DEMO OK\|DEMO_RUNNER DONE" "$LOGDIR/demos.log" 2>/dev/null | sed 's/^/     /'
+echo "     (logs: $LOGDIR)"
 
 if [ $FAIL -eq 0 ]; then echo "VERIFY PASS $PROJ"; else echo "VERIFY FAIL $PROJ"; fi
 exit $FAIL

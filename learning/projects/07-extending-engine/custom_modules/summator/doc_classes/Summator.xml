@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="Summator" inherits="RefCounted" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../doc/class.xsd">
+	<brief_description>
+		Minimal counter class used as a custom C++ module example.
+	</brief_description>
+	<description>
+		[Summator] keeps a running integer total. It exists only to demonstrate how a custom engine module (built with [code]scons custom_modules=...[/code]) registers a class in [ClassDB] and documents it.
+		[codeblock]
+		var s = Summator.new()
+		s.add(5)
+		s.add(7)
+		print(s.get_total()) # 12
+		[/codeblock]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="add">
+			<return type="void" />
+			<param index="0" name="value" type="int" />
+			<description>
+				Adds [param value] to the running total.
+			</description>
+		</method>
+		<method name="get_total" qualifiers="const">
+			<return type="int" />
+			<description>
+				Returns the running total.
+			</description>
+		</method>
+		<method name="reset">
+			<return type="void" />
+			<description>
+				Sets the running total back to [code]0[/code].
+			</description>
+		</method>
+	</methods>
+</class>

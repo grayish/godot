@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://demos/tool_scripts/tool_scripts.gd" id="1_tool_scripts"]
+[ext_resource type="Script" path="res://demos/tool_scripts/tool_widget.gd" id="2_tool_widget"]
+
+[node name="ToolScripts" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_tool_scripts")
+
+[node name="ToolWidget" type="Node2D" parent="."]
+position = Vector2(40, 260)
+script = ExtResource("2_tool_widget")

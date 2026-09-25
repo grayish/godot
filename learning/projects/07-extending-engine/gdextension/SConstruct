@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+# godot-cpp 공식 템플릿(godot-cpp/test/SConstruct, godot-cpp-template)과 같은 구조.
+# 먼저: git clone -b 4.4 https://github.com/godotengine/godot-cpp  (이 디렉터리 안에)
+# 그 다음: scons  (필요하면 platform=linuxbsd target=template_debug)
+import os
+import sys
+
+# godot-cpp 의 SConstruct 가 컴파일러/플랫폼 설정을 마친 env 를 돌려준다.
+env = SConscript("godot-cpp/SConstruct")
+
+env.Append(CPPPATH=["src/"])
+sources = Glob("src/*.cpp")
+
+if env["platform"] == "macos":
+    library = env.SharedLibrary(
+        "bin/libsummator_ext.{}.{}.framework/libsummator_ext.{}.{}".format(
+            env["platform"], env["target"], env["platform"], env["target"]
+        ),
+        source=sources,
+    )
+else:
+    # suffix 예: ".linux.template_debug.x86_64" → summator_ext.gdextension 의 [libraries] 경로와 맞아야 한다.
+    library = env.SharedLibrary(
+        "bin/libsummator_ext{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+        source=sources,
+    )
+
+Default(library)

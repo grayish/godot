@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://demos/signals_101/signals_101.gd" id="1_signals"]
+
+[node name="Signals101" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_signals")
+
+[node name="EditorButton" type="Button" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 436.0
+offset_bottom = 52.0
+text = "1) 에디터(.tscn [connection])로 연결된 버튼"
+
+[connection signal="pressed" from="EditorButton" to="." method="_on_editor_button_pressed"]

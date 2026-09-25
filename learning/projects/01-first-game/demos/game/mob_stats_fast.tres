@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MobStats" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://demos/game/mob_stats.gd" id="1_stats"]
+
+[resource]
+resource_name = "fast"
+script = ExtResource("1_stats")
+display_name = "빠른 몹"
+speed_min = 280.0
+speed_max = 400.0
+color = Color(1, 0.35, 0.3, 1)

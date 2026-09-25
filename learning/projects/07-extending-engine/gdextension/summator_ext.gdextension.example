@@ -1,0 +1,19 @@
+; 라이브러리를 빌드한 뒤 이 파일을 summator_ext.gdextension 으로 이름을 바꾸세요.
+; (.gdextension 이 있는데 라이브러리가 없으면 프로젝트를 열 때 오류가 나므로 .example 로 둔다.)
+; 로딩: core/extension/gdextension_manager.cpp GDExtensionManager::load_extensions()
+;       → core/extension/gdextension.cpp GDExtension::open_library() → entry_symbol 호출.
+
+[configuration]
+
+entry_symbol = "summator_ext_init"
+compatibility_minimum = "4.4"
+reloadable = true
+
+[libraries]
+
+linux.debug.x86_64 = "res://gdextension/bin/libsummator_ext.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "res://gdextension/bin/libsummator_ext.linux.template_release.x86_64.so"
+windows.debug.x86_64 = "res://gdextension/bin/libsummator_ext.windows.template_debug.x86_64.dll"
+windows.release.x86_64 = "res://gdextension/bin/libsummator_ext.windows.template_release.x86_64.dll"
+macos.debug = "res://gdextension/bin/libsummator_ext.macos.template_debug.framework"
+macos.release = "res://gdextension/bin/libsummator_ext.macos.template_release.framework"
