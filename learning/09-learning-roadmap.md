@@ -63,7 +63,7 @@ Stage 7  엔진 기여 / 모듈 작성  CONTRIBUTING.md, 4장
 4. `gdscript_compiler.cpp` + `gdscript_byte_codegen.cpp` — 바이트코드 생성
 5. `gdscript_vm.cpp` — `GDScriptFunction::call()`의 거대한 `switch`/computed-goto 루프
 
-🧪 **실습**: `tests=yes`로 빌드한 바이너리에서 `godot --test gdscript-bytecode path/to/script.gd`를 실행하면 `gdscript_disassembler.cpp`가 각 함수의 바이트코드를 덤프합니다 (`modules/gdscript/register_types.cpp:230-234`의 `REGISTER_TEST_COMMAND`, 같은 방식으로 `gdscript-tokenizer`, `gdscript-parser`, `gdscript-compiler`도 있음). 타입 힌트(`var x: int`)를 넣었을 때 opcode가 `OPCODE_OPERATOR` 에서 `OPCODE_OPERATOR_VALIDATED`류로 바뀌는지 비교하면 "정적 타이핑이 왜 빠른가"를 체감할 수 있습니다.
+🧪 **실습**: `tests=yes`로 빌드한 바이너리에서 `godot --test gdscript-compiler path/to/script.gd`를 실행하면 `gdscript_disassembler.cpp`가 각 함수의 바이트코드를 덤프합니다 (`modules/gdscript/register_types.cpp:230-234`의 `REGISTER_TEST_COMMAND`로 등록되며 `tests/test_main.cpp:104`가 `--test <명령>`을 여기로 보냅니다. `gdscript-tokenizer`, `gdscript-parser`도 같은 방식이고, `gdscript-bytecode`는 현재 "Not implemented."만 출력합니다 — 디스어셈블리는 `TEST_COMPILER` 경로에 있습니다). 타입 힌트(`var x: int`)를 넣었을 때 opcode가 `OPCODE_OPERATOR` 에서 `OPCODE_OPERATOR_VALIDATED`류로 바뀌는지 비교하면 "정적 타이핑이 왜 빠른가"를 체감할 수 있습니다.
 
 **병행**: C#이 필요하면 `modules/mono/` — .NET 호스팅과 glue 생성(`modules/mono/glue/`), GDExtension이 필요하면 2장 2.6.
 

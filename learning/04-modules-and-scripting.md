@@ -65,7 +65,7 @@ GDScriptFunction (gdscript_function.h: enum Opcode, :153-311)
 - **익스포트 시 토큰 버퍼**: 텍스트 대신 `GDScriptTokenizerBuffer`(바이너리 토큰, `.gdc`)로 저장해 파싱 비용을 줄이고 소스를 감춥니다 (`gdscript_parser.cpp:482/541`에서 선택).
 - **await**: `GDScriptFunctionState`(`gdscript_function.h:506`)가 스택을 힙에 저장해 코루틴을 구현합니다.
 - **캐시**: `GDScriptCache`/`GDScriptParserRef`가 파싱 결과를 스크립트 간에 공유해 순환 의존을 처리합니다.
-- **디스어셈블러**: `gdscript_disassembler.cpp` (`DEBUG_ENABLED`). `tests=yes` 빌드에서 `godot --test gdscript-bytecode script.gd`.
+- **디스어셈블러**: `gdscript_disassembler.cpp` (`DEBUG_ENABLED`). `tests=yes` 빌드에서 `godot --test gdscript-compiler script.gd` (`modules/gdscript/tests/test_gdscript.cpp`의 `TEST_COMPILER`가 컴파일 후 `recursively_disassemble_functions()`를 호출. `gdscript-bytecode` 명령은 아직 "Not implemented.").
 - **에디터 지원**: `gdscript_editor.cpp`(자동완성은 분석기 재사용), `language_server/`(LSP, 외부 에디터용), `gdscript_linter`.
 - **ScriptInstance 연결**: 스크립트를 노드에 붙이면 `GDScriptInstance`가 `Object::script_instance`에 들어가고, `Object::set/get/call/notification`이 먼저 스크립트 인스턴스에 기회를 줍니다. `_process` 호출은 `GDScriptInstance::notification()` → `GDScriptFunction::call()`.
 
